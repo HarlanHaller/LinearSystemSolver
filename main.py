@@ -11,27 +11,25 @@ tk.Label(text="Enter systems below", font=tkFont.Font(size=30)).pack(pady=(20,0)
 
 tk.Label(text="Enter equations in the outline below", font=tkFont.Font(size=15)).pack(pady=(5,30));
 
+def gen_equation_temps(Frame):
+    Ref_contianer = {}
+
+    Ref_contianer["X"] = tk.Entry(width=3, master=Frame, justify=RIGHT).grid(column=0, row=0)
+    tk.Label(text="x +", master=Frame).grid(column=1, row=0)
+
+    Ref_contianer["Y"] = tk.Entry(width=3, master=Frame, justify=RIGHT).grid(column=2, row=0)
+    tk.Label(text="y =", master=Frame).grid(column=3, row=0)
+
+    Ref_contianer["C"] = tk.Entry(width=3, master=Frame, justify=RIGHT).grid(column=4, row=0)
+
+    return Ref_contianer
+
 System1container = tk.Frame(master=window, width=500, height=20)
 System1container.pack()
-
-S1A = tk.Entry(width=3, master=System1container, justify=RIGHT).grid(column=0, row=0)
-tk.Label(text="x +", master=System1container).grid(column=1, row=0)
-
-S1B = tk.Entry(width=3, master=System1container, justify=RIGHT).grid(column=2, row=0)
-tk.Label(text="y =", master=System1container).grid(column=3, row=0)
-
-S1C = tk.Entry(width=3, master=System1container, justify=RIGHT).grid(column=4, row=0)
-
+System1 = gen_equation_temps(System1container)
 System2container = tk.Frame(master=window, width=500, height=20)
 System2container.pack()
-
-S2A = tk.Entry(width=3, master=System2container, justify=RIGHT).grid(column=0, row=0)
-tk.Label(text="x +", master=System2container).grid(column=1, row=0)
-
-S2B = tk.Entry(width=3, master=System2container, justify=RIGHT).grid(column=2, row=0)
-tk.Label(text="y =", master=System2container).grid(column=3, row=0)
-
-S2C = tk.Entry(width=3, master=System2container, justify=RIGHT).grid(column=4, row=0)
+System2 = gen_equation_temps(System2container)
 
 output = tk.Label(text="")
 
