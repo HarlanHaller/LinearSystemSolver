@@ -41,10 +41,12 @@ System2 = gen_equation_temps(System2container)
 output = tk.Label(text="")
 
 def log(message):
+    """logs message to output box"""
     output["text"]=message
 
 def getValues():
-    Values={"S1":{}, "S2":{}}
+    """get the values and puts them in the format {S1:{X, Y, C}, S2:{X, Y, C}, S3} S3 is for manipulation"""
+    Values={"S1":{}, "S2":{}, "S3":{}}
 
     for value in System1:
         Values["S1"][value] = float(System1[value].get())
@@ -55,6 +57,7 @@ def getValues():
     return Values
 
 def errorChecks():
+    """checks for errors"""
     try:
         for i in System1:
             if System1[i].get() == "":
@@ -63,7 +66,7 @@ def errorChecks():
             if System2[i].get() == "": 
                 raise noInput
     except noInput:
-        log("Error: all input fealds require a value (put 1 if you wanted the variable on its own)")
+        log("Error: all input fealds require a value")
         return 1
 
     try:
@@ -77,20 +80,36 @@ def errorChecks():
     
     v = getValues()
 
-    print(v["S1"]["X"])
-
     if v["S1"]["X"] == 0 or v["S1"]["Y"] == 0 or v["S2"]["X"] == 0 or v["S2"]["Y"] == 0:
         log("Error: '0's cann't be provided as arguments for A or B")
         return 1
+
+def checkEoP(x1, x2, y1, y2, c1, c2):
+    """returns 2 if P, 1 if E, and 0 if nethier"""
+    if x1 == x2 and y1 == y2:
+        if c1 != c2:
+            return 2;
+        return 1;
+    return 0;
+
 
 def compute():
     if errorChecks() == 1:
         return
     v = getValues()
-    print ("all good")
-    
-    
-
+    if (checkEoP(v["S1"]["X"], v["S2"]["X"], v["S1"]["Y"], v["S2"]["Y"], v["S1"]["C"], v["S2"]["C"]) == 1): 
+        log("equations are equal")
+        return
+    if (checkEoP(v["S1"]["X"], v["S2"]["X"], v["S1"]["Y"], v["S2"]["Y"], v["S1"]["C"], v["S2"]["C"]) == 2): 
+        log("equations are parallel")
+        return
+    if abs(v["S1"]["X"]) == abs(v["S2"]["X"]):
+        v["S3"]["Y"] = max(v["S1"]["Y"], v["S2"]["Y"])
+    elif abs(v["S1"]["Y"]) == abs(v["S2"]["Y"]):
+        print ("1")
+    else:
+        print("1")
+        
 
 submit = tk.Button(window, text="submit", width=10, height=2, highlightbackground='lightgray', fg='black', activeforeground='darkgray', command=compute).pack(pady=(10,20))
 output.pack()
