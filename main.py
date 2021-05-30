@@ -104,11 +104,42 @@ def compute():
         log("equations are parallel")
         return
     if abs(v["S1"]["X"]) == abs(v["S2"]["X"]):
-        v["S3"]["Y"] = max(v["S1"]["Y"], v["S2"]["Y"])
+        #'y's are the same without parity
+        if v["S1"]["X"] == v["S2"]["X"]:
+            #subtract case
+            v["S3"]["Y"] = v["S1"]["Y"] - v["S2"]["Y"]
+            v["S3"]["X"] = 0
+            v["S3"]["C"] =  v["S1"]["C"] - v["S2"]["C"]
+        else: 
+            v["S3"]["Y"] = v["S1"]["Y"] + v["S2"]["Y"]
+            v["S3"]["X"] = 0
+            v["S3"]["C"] =  v["S1"]["C"] + v["S2"]["C"]
+            
     elif abs(v["S1"]["Y"]) == abs(v["S2"]["Y"]):
-        print ("1")
+        #'y's are the same without parity
+        if v["S1"]["Y"] == v["S2"]["Y"]:
+            #subtract case
+            v["S3"]["Y"] = 0
+            v["S3"]["X"] = v["S1"]["X"] - v["S2"]["X"]
+            v["S3"]["C"] =  v["S1"]["C"] - v["S2"]["C"]
+        else:
+            #add case
+            v["S3"]["X"] = v["S1"]["X"] + v["S2"]["X"]
+            v["S3"]["Y"] = 0
+            v["S3"]["C"] =  v["S1"]["C"] + v["S2"]["C"]
     else:
-        print("1")
+        #X's nor 'Y's not the same without parity
+        highXS = ""
+        if v["S1"]["X"] > v["S2"]["X"]:
+            highXS = "S1"
+            lowXS = "S2"
+        else:
+            highXS = "S2"
+            lowXS = "S1"
+        change = max(v["S1"]["X"],v["S2"]["X"]) / min(v["S1"]["X"],v["S2"]["X"])
+        v["S3"]["X"] = 0
+        v["S3"]["Y"] = v[lowXS]["Y"]-v[lowXS]["Y"]
+        v["S3"]["C"] = v[lowXS]["C"]-v[lowXS]["C"]
         
 
 submit = tk.Button(window, text="submit", width=10, height=2, highlightbackground='lightgray', fg='black', activeforeground='darkgray', command=compute).pack(pady=(10,20))
